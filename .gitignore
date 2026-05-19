@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+
+# VS/Rider
+.vs/
+.vscode/
+*.user
+
+# SQLite DB (contains data, not source)
+*.db
+*.db-shm
+*.db-wal
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Logs
+*.log
+logs/
+
+# Temp
+D:\Temp/
+D:\NuGetPackages/
+HashGen/
