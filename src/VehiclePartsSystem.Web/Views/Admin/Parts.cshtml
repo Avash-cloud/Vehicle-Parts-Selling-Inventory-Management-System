@@ -1,0 +1,44 @@
+@model List<VehiclePartsSystem.Web.Models.PartViewModel>
+@{ ViewData["Title"] = "Manage Parts"; }
+<div class="container-fluid my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-box me-2"></i>Parts Management</h2>
+        <a asp-action="CreatePart" class="btn btn-warning"><i class="bi bi-plus-circle me-2"></i>Add Part</a>
+    </div>
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-4"><input type="text" name="search" class="form-control" placeholder="Search..." value="@ViewBag.Search" /></div>
+        <div class="col-md-2"><button type="submit" class="btn btn-dark w-100">Search</button></div>
+    </form>
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>Name</th><th>Part #</th><th>Category</th><th>Cost</th><th>Selling</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@p.Name</td>
+                            <td><code>@p.PartNumber</code></td>
+                            <td><span class="badge bg-secondary">@p.Category</span></td>
+                            <td>Rs. @p.CostPrice.ToString("N2")</td>
+                            <td>Rs. @p.SellingPrice.ToString("N2")</td>
+                            <td>
+                                <span class="badge @(p.StockQuantity > p.ReorderLevel ? "bg-success" : p.StockQuantity > 0 ? "bg-warning text-dark" : "bg-danger")">
+                                    @p.StockQuantity
+                                </span>
+                            </td>
+                            <td><span class="badge @(p.IsActive ? "bg-success" : "bg-secondary")">@(p.IsActive ? "Active" : "Inactive")</span></td>
+                            <td>
+                                <a asp-action="EditPart" asp-route-id="@p.Id" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                <form asp-action="DeletePart" method="post" class="d-inline" onsubmit="return confirm('Delete this part?')">
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

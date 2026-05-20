@@ -1,0 +1,73 @@
+@{ ViewData["Title"] = "Customer Reports";
+   var topSpenders = ViewBag.TopSpenders as List<VehiclePartsSystem.Web.Models.TopSpenderViewModel> ?? new();
+   var pendingCredits = ViewBag.PendingCredits as List<VehiclePartsSystem.Web.Models.PendingCreditViewModel> ?? new();
+   var regularCustomers = ViewBag.RegularCustomers as List<VehiclePartsSystem.Web.Models.CustomerViewModel> ?? new(); }
+<div class="container-fluid my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-bar-chart me-2"></i>Customer Reports</h2>
+    <div class="row g-4">
+        <!-- Top Spenders -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white"><h6 class="mb-0"><i class="bi bi-trophy me-2"></i>Top Spenders</h6></div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>#</th><th>Customer</th><th>Phone</th><th>Total Spent</th><th>Purchases</th></tr></thead>
+                        <tbody>
+                            @for (int i = 0; i < topSpenders.Count; i++)
+                            {
+                                var s = topSpenders[i];
+                                <tr>
+                                    <td><span class="badge @(i == 0 ? "bg-warning text-dark" : i == 1 ? "bg-secondary" : "bg-light text-dark")">@(i+1)</span></td>
+                                    <td class="fw-semibold">@s.CustomerName</td>
+                                    <td>@s.Phone</td>
+                                    <td>Rs. @s.TotalSpent.ToString("N2")</td>
+                                    <td>@s.PurchaseCount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Pending Credits -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white"><h6 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Pending Credits</h6></div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>Customer</th><th>Phone</th><th>Balance</th><th>Due Date</th><th>Status</th></tr></thead>
+                        <tbody>
+                            @foreach (var c in pendingCredits)
+                            {
+                                <tr class="@(c.IsOverdue ? "table-danger" : "")">
+                                    <td class="fw-semibold">@c.CustomerName</td>
+                                    <td>@c.Phone</td>
+                                    <td>Rs. @c.CreditBalance.ToString("N2")</td>
+                                    <td>@(c.CreditDueDate?.ToString("MMM dd, yyyy") ?? "—")</td>
+                                    <td><span class="badge @(c.IsOverdue ? "bg-danger" : "bg-warning text-dark")">@(c.IsOverdue ? "Overdue" : "Pending")</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Regular Customers -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white"><h6 class="mb-0"><i class="bi bi-star me-2"></i>Regular Customers (3+ purchases)</h6></div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Total Spent</th></tr></thead>
+                        <tbody>
+                            @foreach (var c in regularCustomers)
+                            {
+                                <tr><td class="fw-semibold">@c.FullName</td><td>@c.Email</td><td>@c.Phone</td><td>Rs. @c.TotalSpent.ToString("N2")</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

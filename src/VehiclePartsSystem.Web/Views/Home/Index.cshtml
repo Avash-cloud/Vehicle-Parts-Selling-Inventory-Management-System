@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    var parts = ViewBag.Parts as List<VehiclePartsSystem.Web.Models.PartViewModel> ?? new();
+    var reviews = ViewBag.Reviews as List<VehiclePartsSystem.Web.Models.ReviewViewModel> ?? new();
+}
+
+<!-- Hero -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1><i class="bi bi-gear-fill text-warning me-3"></i>Vehicle Parts & Service Center</h1>
+        <p class="lead">Your trusted partner for genuine vehicle parts and professional service</p>
+        <div class="mt-4">
+            @if (!User.Identity!.IsAuthenticated)
+            {
+                <a asp-controller="Account" asp-action="Register" class="btn btn-warning btn-lg me-3 px-4">
+                    <i class="bi bi-person-plus me-2"></i>Register Now
+                </a>
+                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="Parts" class="btn btn-warning btn-lg me-3 px-4">
+                    <i class="bi bi-search me-2"></i>Browse Parts
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="container my-5">
+    <div class="row text-center g-4">
+        <div class="col-md-3">
+            <div class="card p-4 h-100">
+                <i class="bi bi-shield-check display-4 text-success mb-3"></i>
+                <h5>Genuine Parts</h5>
+                <p class="text-muted">100% authentic vehicle parts from verified vendors</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-4 h-100">
+                <i class="bi bi-robot display-4 text-primary mb-3"></i>
+                <h5>AI Diagnostics</h5>
+                <p class="text-muted">Smart AI predicts potential part failures before they happen</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-4 h-100">
+                <i class="bi bi-calendar-check display-4 text-warning mb-3"></i>
+                <h5>Easy Booking</h5>
+                <p class="text-muted">Book service appointments online anytime</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-4 h-100">
+                <i class="bi bi-gift display-4 text-danger mb-3"></i>
+                <h5>Loyalty Rewards</h5>
+                <p class="text-muted">Get 10% discount on purchases over Rs. 5,000</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Parts -->
+@if (parts.Any())
+{
+    <div class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 fw-bold">Featured Parts</h2>
+            <div class="row g-4">
+                @foreach (var part in parts)
+                {
+                    <div class="col-md-4 col-lg-2">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-gear display-5 text-secondary mb-2"></i>
+                                <h6 class="card-title">@part.Name</h6>
+                                <p class="text-muted small">@part.Category</p>
+                                <p class="fw-bold text-success">Rs. @part.SellingPrice.ToString("N2")</p>
+                                <span class="badge @(part.StockQuantity > 10 ? "bg-success" : part.StockQuantity > 0 ? "bg-warning" : "bg-danger")">
+                                    @(part.StockQuantity > 0 ? $"{part.StockQuantity} in stock" : "Out of stock")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-4">
+                <a asp-controller="Home" asp-action="Parts" class="btn btn-dark px-5">View All Parts</a>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Reviews -->
+@if (reviews.Any())
+{
+    <div class="container my-5">
+        <h2 class="text-center mb-4 fw-bold">Customer Reviews</h2>
+        <div class="row g-4">
+            @foreach (var review in reviews)
+            {
+                <div class="col-md-4">
+                    <div class="card p-4 h-100">
+                        <div class="star-rating mb-2">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
+                            }
+                        </div>
+                        <p class="text-muted fst-italic">"@review.Comment"</p>
+                        <p class="fw-bold mb-0">— @review.CustomerName</p>
+                        <small class="text-muted">@review.CreatedAt.ToString("MMM dd, yyyy")</small>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

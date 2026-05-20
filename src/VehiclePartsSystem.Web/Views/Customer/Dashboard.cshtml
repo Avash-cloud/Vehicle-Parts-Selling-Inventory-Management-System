@@ -1,0 +1,46 @@
+@model VehiclePartsSystem.Web.Models.CustomerViewModel
+@{ ViewData["Title"] = "My Dashboard"; }
+<div class="container my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-house me-2 text-warning"></i>Welcome, @Model.FullName!</h2>
+    <div class="row g-4 mb-4">
+        <div class="col-md-4"><div class="card dashboard-card blue p-4"><h6 class="opacity-75">Total Spent</h6><h3 class="fw-bold">Rs. @ViewBag.TotalSpent.ToString("N2")</h3></div></div>
+        <div class="col-md-4"><div class="card dashboard-card @(((decimal)ViewBag.CreditBalance) > 0 ? "red" : "green") p-4"><h6 class="opacity-75">Credit Balance</h6><h3 class="fw-bold">Rs. @ViewBag.CreditBalance.ToString("N2")</h3></div></div>
+        <div class="col-md-4"><div class="card dashboard-card orange p-4"><h6 class="opacity-75">Vehicles</h6><h3 class="fw-bold">@Model.Vehicles.Count</h3></div></div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2"></i>Recent Purchases</h5>
+                @{ var history = ViewBag.History as List<VehiclePartsSystem.Web.Models.SalesInvoiceViewModel> ?? new(); }
+                @if (!history.Any()) { <p class="text-muted">No purchases yet.</p> }
+                else
+                {
+                    @foreach (var inv in history)
+                    {
+                        <div class="border rounded p-2 mb-2">
+                            <div class="d-flex justify-content-between">
+                                <code>@inv.InvoiceNumber</code>
+                                <strong>Rs. @inv.TotalAmount.ToString("N2")</strong>
+                            </div>
+                            <small class="text-muted">@inv.InvoiceDate.ToString("MMM dd, yyyy")</small>
+                            @if (inv.DiscountAmount > 0) { <span class="badge bg-success ms-2">10% discount applied</span> }
+                        </div>
+                    }
+                    <a asp-action="History" class="btn btn-sm btn-outline-dark mt-2">View All</a>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-lightning me-2"></i>Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a asp-action="Appointments" class="btn btn-outline-primary"><i class="bi bi-calendar-plus me-2"></i>Book Appointment</a>
+                    <a asp-action="AiPrediction" class="btn btn-outline-success"><i class="bi bi-robot me-2"></i>AI Vehicle Prediction</a>
+                    <a asp-action="PartRequests" class="btn btn-outline-warning"><i class="bi bi-search me-2"></i>Request a Part</a>
+                    <a asp-action="Reviews" class="btn btn-outline-info"><i class="bi bi-star me-2"></i>Write a Review</a>
+                    <a asp-action="AddVehicle" class="btn btn-outline-secondary"><i class="bi bi-car-front me-2"></i>Add Vehicle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

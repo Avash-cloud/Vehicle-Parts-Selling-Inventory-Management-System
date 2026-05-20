@@ -1,0 +1,36 @@
+@model List<VehiclePartsSystem.Web.Models.SalesInvoiceViewModel>
+@{ ViewData["Title"] = "Sales Invoices"; }
+<div class="container-fluid my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-receipt me-2"></i>Sales Invoices</h2>
+        <a asp-action="CreateSalesInvoice" class="btn btn-warning"><i class="bi bi-plus-circle me-2"></i>New Sale</a>
+    </div>
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>Invoice #</th><th>Customer</th><th>Date</th><th>Sub Total</th><th>Discount</th><th>Total</th><th>Type</th><th>Status</th><th>Email</th></tr></thead>
+                <tbody>
+                    @foreach (var inv in Model)
+                    {
+                        <tr>
+                            <td><code>@inv.InvoiceNumber</code></td>
+                            <td>@inv.CustomerName</td>
+                            <td>@inv.InvoiceDate.ToString("MMM dd, yyyy")</td>
+                            <td>Rs. @inv.SubTotal.ToString("N2")</td>
+                            <td>@(inv.DiscountAmount > 0 ? $"Rs. {inv.DiscountAmount:N2}" : "—")</td>
+                            <td class="fw-bold">Rs. @inv.TotalAmount.ToString("N2")</td>
+                            <td><span class="badge @(inv.IsCreditSale ? "bg-warning text-dark" : "bg-info text-dark")">@(inv.IsCreditSale ? "Credit" : "Cash")</span></td>
+                            <td><span class="badge @(inv.IsPaid ? "bg-success" : "bg-danger")">@(inv.IsPaid ? "Paid" : "Unpaid")</span></td>
+                            <td>
+                                <form asp-action="EmailInvoice" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@inv.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary" title="Email Invoice"><i class="bi bi-envelope"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

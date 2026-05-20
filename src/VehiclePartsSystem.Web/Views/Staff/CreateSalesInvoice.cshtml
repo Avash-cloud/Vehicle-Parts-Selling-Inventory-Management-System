@@ -1,0 +1,65 @@
+@{ ViewData["Title"] = "New Sale";
+   var customers = ViewBag.Customers as List<VehiclePartsSystem.Web.Models.CustomerViewModel> ?? new();
+   var parts = ViewBag.Parts as List<VehiclePartsSystem.Web.Models.PartViewModel> ?? new(); }
+<div class="container my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-plus-circle me-2"></i>Create Sales Invoice</h2>
+    <div class="card shadow">
+        <div class="card-body p-4">
+            <form asp-action="CreateSalesInvoice" method="post">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-5">
+                        <label class="form-label fw-semibold">Customer</label>
+                        <select name="customerId" class="form-select" required>
+                            <option value="">Select Customer</option>
+                            @foreach (var c in customers) { <option value="@c.Id">@c.FullName (@c.Phone)</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Payment Type</label>
+                        <select name="isCreditSale" class="form-select">
+                            <option value="false">Cash</option>
+                            <option value="true">Credit</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Notes</label>
+                        <input name="notes" class="form-control" placeholder="Optional notes" />
+                    </div>
+                </div>
+                <div class="alert alert-info small"><i class="bi bi-info-circle me-2"></i>Purchases over <strong>Rs. 5,000</strong> automatically receive a <strong>10% loyalty discount</strong>.</div>
+                <h6 class="fw-bold mb-3">Items</h6>
+                <div id="items">
+                    <div class="row g-2 mb-2 item-row">
+                        <div class="col-md-7">
+                            <select name="partIds" class="form-select" required>
+                                <option value="">Select Part</option>
+                                @foreach (var p in parts) { <option value="@p.Id">@p.Name — Rs. @p.SellingPrice.ToString("N2") (@p.StockQuantity in stock)</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-3"><input name="quantities" type="number" class="form-control" placeholder="Quantity" min="1" required /></div>
+                        <div class="col-md-2"><button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="removeRow(this)"><i class="bi bi-trash"></i></button></div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="addRow()"><i class="bi bi-plus me-1"></i>Add Item</button>
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-warning px-4"><i class="bi bi-check-circle me-2"></i>Create Invoice</button>
+                    <a asp-action="SalesInvoices" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+<script>
+function addRow() {
+    const row = document.querySelector('.item-row').cloneNode(true);
+    row.querySelectorAll('input').forEach(i => i.value = '');
+    row.querySelector('select').selectedIndex = 0;
+    document.getElementById('items').appendChild(row);
+}
+function removeRow(btn) {
+    const rows = document.querySelectorAll('.item-row');
+    if (rows.length > 1) btn.closest('.item-row').remove();
+}
+</script>
+}

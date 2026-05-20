@@ -1,0 +1,34 @@
+@model VehiclePartsSystem.Web.Models.RegisterViewModel
+@{ ViewData["Title"] = "Register Customer"; }
+<div class="container my-4"><div class="row justify-content-center"><div class="col-md-8">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white"><h5 class="mb-0"><i class="bi bi-person-plus me-2"></i>Register New Customer</h5></div>
+        <div class="card-body p-4">
+            <form asp-action="RegisterCustomer" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label fw-semibold">Full Name</label><input asp-for="FullName" class="form-control" required /></div>
+                    <div class="col-md-6"><label class="form-label fw-semibold">Phone</label><input asp-for="Phone" class="form-control" required /></div>
+                    <div class="col-md-6"><label class="form-label fw-semibold">Email</label><input asp-for="Email" type="email" class="form-control" required /></div>
+                    <div class="col-md-6"><label class="form-label fw-semibold">Password</label><input asp-for="Password" type="password" class="form-control" required /></div>
+                    <div class="col-12"><label class="form-label fw-semibold">Address</label><input asp-for="Address" class="form-control" /></div>
+                </div>
+                <hr class="my-4" /><h6 class="fw-bold text-muted">Vehicle Details (Optional)</h6>
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label">Vehicle Number</label><input asp-for="VehicleNumber" class="form-control" /></div>
+                    <div class="col-md-6"><label class="form-label">Make</label><input asp-for="Make" class="form-control" /></div>
+                    <div class="col-md-4"><label class="form-label">Model</label><input asp-for="VehicleModel" class="form-control" /></div>
+                    <div class="col-md-4"><label class="form-label">Year</label><input asp-for="Year" type="number" class="form-control" /></div>
+                    <div class="col-md-4"><label class="form-label">Fuel Type</label>
+                        <select asp-for="FuelType" class="form-select">
+                            <option value="">Select</option><option>Petrol</option><option>Diesel</option><option>Electric</option><option>Hybrid</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-warning px-4">Register Customer</button>
+                    <a asp-action="Customers" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div></div></div>

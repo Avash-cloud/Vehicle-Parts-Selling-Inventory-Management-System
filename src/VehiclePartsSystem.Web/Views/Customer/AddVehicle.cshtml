@@ -1,0 +1,29 @@
+@{ ViewData["Title"] = "Add Vehicle"; }
+<div class="container my-4"><div class="row justify-content-center"><div class="col-md-7">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white"><h5 class="mb-0"><i class="bi bi-car-front me-2"></i>Add Vehicle</h5></div>
+        <div class="card-body p-4">
+            <form asp-action="AddVehicle" method="post">
+                <input type="hidden" name="customerId" value="@ViewBag.CustomerId" />
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label fw-semibold">Vehicle Number</label><input name="vehicleNumber" class="form-control" required /></div>
+                    <div class="col-md-6"><label class="form-label fw-semibold">Make</label><input name="make" class="form-control" required /></div>
+                    <div class="col-md-4"><label class="form-label fw-semibold">Model</label><input name="model" class="form-control" required /></div>
+                    <div class="col-md-4"><label class="form-label fw-semibold">Year</label><input name="year" type="number" class="form-control" required /></div>
+                    <div class="col-md-4"><label class="form-label fw-semibold">Fuel Type</label>
+                        <select name="fuelType" class="form-select">
+                            <option>Petrol</option><option>Diesel</option><option>Electric</option><option>Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6"><label class="form-label fw-semibold">Mileage (km)</label><input name="mileage" type="number" class="form-control" value="0" /></div>
+                    <div class="col-md-6"><label class="form-label fw-semibold">Last Service Date</label><input name="lastServiceDate" type="date" class="form-control" /></div>
+                    <div class="col-12"><label class="form-label fw-semibold">Notes</label><input name="notes" class="form-control" /></div>
+                </div>
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-warning px-4">Add Vehicle</button>
+                    <a asp-action="Profile" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div></div></div>

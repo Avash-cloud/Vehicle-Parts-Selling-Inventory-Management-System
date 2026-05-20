@@ -1,0 +1,27 @@
+@model List<VehiclePartsSystem.Web.Models.NotificationViewModel>
+@{ ViewData["Title"] = "Notifications"; }
+<div class="container-fluid my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-bell me-2"></i>Notifications</h2>
+    @if (!Model.Any()) { <div class="alert alert-info">No notifications.</div> }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var n in Model)
+            {
+                <div class="col-12">
+                    <div class="card @(n.IsRead ? "" : "border-warning") p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <span class="badge @(n.Type == "LowStock" ? "bg-danger" : "bg-warning text-dark") me-2">@n.Type</span>
+                                <strong>@n.Title</strong>
+                                <p class="mb-0 text-muted mt-1">@n.Message</p>
+                                <small class="text-muted">@n.CreatedAt.ToString("MMM dd, yyyy HH:mm")</small>
+                            </div>
+                            @if (!n.IsRead) { <span class="badge bg-warning text-dark">New</span> }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

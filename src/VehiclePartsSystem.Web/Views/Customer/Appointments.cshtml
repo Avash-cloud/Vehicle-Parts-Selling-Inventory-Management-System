@@ -1,0 +1,53 @@
+@model List<VehiclePartsSystem.Web.Models.AppointmentViewModel>
+@{ ViewData["Title"] = "My Appointments"; }
+<div class="container my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-calendar me-2"></i>My Appointments</h2>
+    <div class="card mb-4 p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-calendar-plus me-2"></i>Book New Appointment</h5>
+        <form asp-action="BookAppointment" method="post">
+            <input type="hidden" name="customerId" value="@ViewBag.CustomerId" />
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Service Type</label>
+                    <select name="serviceType" class="form-select" required>
+                        <option value="">Select Service</option>
+                        <option>Oil Change</option><option>Brake Service</option><option>Engine Tune-up</option>
+                        <option>Tire Rotation</option><option>Battery Replacement</option><option>Full Inspection</option>
+                        <option>AC Service</option><option>Transmission Service</option><option>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Date & Time</label>
+                    <input name="appointmentDate" type="datetime-local" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Notes</label>
+                    <input name="notes" class="form-control" placeholder="Any special requests?" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-warning mt-3"><i class="bi bi-calendar-check me-2"></i>Book Appointment</button>
+        </form>
+    </div>
+    <h5 class="fw-bold mb-3">My Appointments</h5>
+    @if (!Model.Any()) { <div class="alert alert-info">No appointments booked yet.</div> }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var a in Model)
+            {
+                <div class="col-md-6">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="fw-bold">@a.ServiceType</h6>
+                                <p class="mb-1 text-muted"><i class="bi bi-calendar me-1"></i>@a.AppointmentDate.ToString("MMM dd, yyyy HH:mm")</p>
+                                @if (!string.IsNullOrEmpty(a.Notes)) { <p class="mb-0 small text-muted">@a.Notes</p> }
+                            </div>
+                            <span class="badge @(a.Status == "Confirmed" ? "bg-success" : a.Status == "Pending" ? "bg-warning text-dark" : a.Status == "Completed" ? "bg-info" : "bg-secondary")">@a.Status</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

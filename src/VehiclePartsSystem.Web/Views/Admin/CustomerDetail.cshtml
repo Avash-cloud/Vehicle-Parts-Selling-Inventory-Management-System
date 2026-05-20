@@ -1,0 +1,53 @@
+@model VehiclePartsSystem.Web.Models.CustomerViewModel
+@{ ViewData["Title"] = "Customer Detail"; var history = ViewBag.History as List<VehiclePartsSystem.Web.Models.SalesInvoiceViewModel> ?? new(); }
+<div class="container-fluid my-4">
+    <a asp-action="Customers" class="btn btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-2"></i>Back</a>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card p-4">
+                <div class="text-center mb-3"><i class="bi bi-person-circle display-3 text-secondary"></i></div>
+                <h4 class="text-center fw-bold">@Model.FullName</h4>
+                <hr />
+                <p><i class="bi bi-envelope me-2 text-muted"></i>@Model.Email</p>
+                <p><i class="bi bi-phone me-2 text-muted"></i>@Model.Phone</p>
+                <p><i class="bi bi-geo-alt me-2 text-muted"></i>@Model.Address</p>
+                <p><i class="bi bi-currency-dollar me-2 text-muted"></i>Total Spent: <strong>Rs. @Model.TotalSpent.ToString("N2")</strong></p>
+                @if (Model.CreditBalance > 0)
+                { <div class="alert alert-warning p-2"><i class="bi bi-exclamation-triangle me-2"></i>Credit: Rs. @Model.CreditBalance.ToString("N2")</div> }
+            </div>
+            <div class="card p-4 mt-3">
+                <h6 class="fw-bold mb-3"><i class="bi bi-car-front me-2"></i>Vehicles</h6>
+                @foreach (var v in Model.Vehicles)
+                {
+                    <div class="border rounded p-2 mb-2">
+                        <strong>@v.VehicleNumber</strong> — @v.Make @v.Model (@v.Year)<br/>
+                        <small class="text-muted">@v.FuelType | @v.Mileage km</small>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-dark text-white"><h6 class="mb-0"><i class="bi bi-clock-history me-2"></i>Purchase History</h6></div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>Invoice #</th><th>Date</th><th>Total</th><th>Discount</th><th>Type</th><th>Status</th></tr></thead>
+                        <tbody>
+                            @foreach (var inv in history)
+                            {
+                                <tr>
+                                    <td><code>@inv.InvoiceNumber</code></td>
+                                    <td>@inv.InvoiceDate.ToString("MMM dd, yyyy")</td>
+                                    <td>Rs. @inv.TotalAmount.ToString("N2")</td>
+                                    <td>@(inv.DiscountAmount > 0 ? $"Rs. {inv.DiscountAmount:N2}" : "-")</td>
+                                    <td><span class="badge @(inv.IsCreditSale ? "bg-warning text-dark" : "bg-info text-dark")">@(inv.IsCreditSale ? "Credit" : "Cash")</span></td>
+                                    <td><span class="badge @(inv.IsPaid ? "bg-success" : "bg-danger")">@(inv.IsPaid ? "Paid" : "Unpaid")</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

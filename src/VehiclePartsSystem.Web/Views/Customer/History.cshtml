@@ -1,0 +1,37 @@
+@model List<VehiclePartsSystem.Web.Models.SalesInvoiceViewModel>
+@{ ViewData["Title"] = "Purchase History"; }
+<div class="container my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-clock-history me-2"></i>Purchase History</h2>
+    @if (!Model.Any()) { <div class="alert alert-info">No purchases yet.</div> }
+    else
+    {
+        @foreach (var inv in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div><code class="fs-6">@inv.InvoiceNumber</code> <span class="ms-2 text-muted">@inv.InvoiceDate.ToString("MMM dd, yyyy")</span></div>
+                    <div>
+                        <span class="badge @(inv.IsCreditSale ? "bg-warning text-dark" : "bg-info text-dark") me-2">@(inv.IsCreditSale ? "Credit" : "Cash")</span>
+                        <span class="badge @(inv.IsPaid ? "bg-success" : "bg-danger")">@(inv.IsPaid ? "Paid" : "Unpaid")</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm mb-2">
+                        <thead><tr><th>Part</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
+                        <tbody>
+                            @foreach (var item in inv.Items)
+                            {
+                                <tr><td>@item.PartName</td><td>@item.Quantity</td><td>Rs. @item.UnitPrice.ToString("N2")</td><td>Rs. @item.TotalPrice.ToString("N2")</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="text-end">
+                        @if (inv.DiscountAmount > 0)
+                        { <p class="text-success mb-1"><i class="bi bi-tag me-1"></i>Loyalty Discount: -Rs. @inv.DiscountAmount.ToString("N2")</p> }
+                        <h5 class="fw-bold">Total: Rs. @inv.TotalAmount.ToString("N2")</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,33 @@
+@model List<VehiclePartsSystem.Web.Models.CustomerViewModel>
+@{ ViewData["Title"] = "Customers"; }
+<div class="container-fluid my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-people me-2"></i>Customers</h2>
+        <a asp-action="RegisterCustomer" class="btn btn-warning"><i class="bi bi-person-plus me-2"></i>Register Customer</a>
+    </div>
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-4"><input type="text" name="search" class="form-control" placeholder="Search by name, phone, email, ID, vehicle..." value="@ViewBag.Search" /></div>
+        <div class="col-md-2"><button type="submit" class="btn btn-dark w-100"><i class="bi bi-search me-1"></i>Search</button></div>
+    </form>
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Total Spent</th><th>Credit</th><th>Vehicles</th><th>Actions</th></tr></thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td>#@c.Id</td>
+                            <td class="fw-semibold">@c.FullName</td>
+                            <td>@c.Phone</td>
+                            <td>Rs. @c.TotalSpent.ToString("N2")</td>
+                            <td>@(c.CreditBalance > 0 ? $"Rs. {c.CreditBalance:N2}" : "—")</td>
+                            <td>@c.Vehicles.Count</td>
+                            <td><a asp-action="CustomerDetail" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

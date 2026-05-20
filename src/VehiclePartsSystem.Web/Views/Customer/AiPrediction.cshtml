@@ -1,0 +1,46 @@
+@model VehiclePartsSystem.Web.Models.AiPredictionViewModel
+@{ ViewData["Title"] = "AI Vehicle Prediction"; }
+<div class="container my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-robot me-2 text-primary"></i>AI Vehicle Health Prediction</h2>
+    @if (Model == null)
+    {
+        <div class="alert alert-warning"><i class="bi bi-exclamation-triangle me-2"></i>No vehicle registered. <a asp-action="AddVehicle">Add a vehicle</a> to get predictions.</div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <div class="text-center mb-3"><i class="bi bi-car-front display-3 text-secondary"></i></div>
+                    <h5 class="text-center fw-bold">@Model.VehicleNumber</h5>
+                    <hr />
+                    <p><strong>Make:</strong> @Model.Make</p>
+                    <p><strong>Model:</strong> @Model.Model</p>
+                    <p><strong>Year:</strong> @Model.Year</p>
+                    <p><strong>Mileage:</strong> @Model.Mileage.ToString("N0") km</p>
+                    <div class="text-center mt-3">
+                        <span class="badge fs-6 @(Model.RiskLevel == "High" ? "bg-danger" : Model.RiskLevel == "Medium" ? "bg-warning text-dark" : "bg-success")">
+                            @Model.RiskLevel Risk
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-exclamation-circle me-2 text-warning"></i>Predicted Issues</h5>
+                    @foreach (var f in Model.PredictedFailures)
+                    {
+                        <div class="alert @(Model.RiskLevel == "High" ? "alert-danger" : Model.RiskLevel == "Medium" ? "alert-warning" : "alert-success") py-2">
+                            <i class="bi @(Model.RiskLevel == "High" ? "bi-x-circle" : Model.RiskLevel == "Medium" ? "bi-exclamation-triangle" : "bi-check-circle") me-2"></i>@f
+                        </div>
+                    }
+                    <div class="card bg-light p-3 mt-3">
+                        <h6 class="fw-bold"><i class="bi bi-lightbulb me-2 text-warning"></i>Recommendation</h6>
+                        <p class="mb-0">@Model.Recommendation</p>
+                    </div>
+                    <a asp-action="Appointments" class="btn btn-warning mt-3"><i class="bi bi-calendar-plus me-2"></i>Book Service Appointment</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

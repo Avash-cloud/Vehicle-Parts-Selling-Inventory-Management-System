@@ -1,0 +1,162 @@
+Test Execution Guide for Documentation
+
+This guide provides step-by-step instructions on where to go in the system, what actions to perform, and what data to insert for each of your 16 test cases. You can use these steps directly in your documentation.
+
+-------------------------------------------------------------------
+Test Case 1: Financial Report Management (FT-01)
+- Role: Admin
+- Where to go: Navigate to the Admin Dashboard -> "Reports" or "Financial Reports" section.
+- What to do: Select a date range (Daily, Monthly, Yearly) from the filter options and click "Generate Report".
+- What to insert: 
+  - Start Date: 01-Jan-2026
+  - End Date: 31-Jan-2026
+  - Report Type: Monthly
+
+-------------------------------------------------------------------
+Test Case 2: Staff Registration and Role Management (FT-02)
+- Role: Admin
+- Where to go: Admin Dashboard -> "Staff Management" -> "Add New Staff"
+- What to do: Fill out the staff details, assign a role, and save.
+- What to insert:
+  - Name: John Doe
+  - Email: john.staff@example.com
+  - Phone: 9876543210
+  - Role: Sales Staff
+  - Password: password123
+
+-------------------------------------------------------------------
+Test Case 3: Parts Management (FT-03)
+- Role: Admin
+- Where to go: Admin Dashboard -> "Inventory" -> "Add New Part"
+- What to do: Enter vehicle part details and click "Save". Then try editing and deleting an existing part.
+- What to insert:
+  - Part Name: Brake Pads
+  - Part Number: BP-1002
+  - Brand: Bosch
+  - Price: 2500
+  - Stock Quantity: 50
+
+-------------------------------------------------------------------
+Test Case 4: Purchase Invoice Management (FT-04)
+- Role: Admin
+- Where to go: Admin Dashboard -> "Purchases" -> "Create Purchase Invoice"
+- What to do: Select a vendor, add parts purchased, enter quantities, and save the invoice. Verify stock increases in Inventory.
+- What to insert:
+  - Vendor: Auto Parts Supplier Co.
+  - Part: Brake Pads
+  - Quantity: 100
+  - Total Cost: 150000
+
+-------------------------------------------------------------------
+Test Case 5: Vendor Management (FT-05)
+- Role: Admin
+- Where to go: Admin Dashboard -> "Vendors" -> "Add Vendor"
+- What to do: Add vendor details, edit them, view the list, and delete a dummy vendor.
+- What to insert:
+  - Vendor Name: Global Auto Supplies
+  - Contact Person: Jane Smith
+  - Phone: 9800000000
+  - Email: contact@globalauto.com
+  - Address: Kathmandu, Nepal
+
+-------------------------------------------------------------------
+Test Case 6: Customer Registration (FT-06)
+- Role: Staff
+- Where to go: Staff Dashboard -> "Customers" -> "Register Customer"
+- What to do: Enter the customer's personal information and their vehicle details, then click "Register".
+- What to insert:
+  - Name: Alice Johnson
+  - Phone: 9811111111
+  - Vehicle Number: BA 2 PA 1234
+  - Vehicle Model: Hyundai Creta
+
+-------------------------------------------------------------------
+Test Case 7: Sales Invoice Generation (FT-07)
+- Role: Staff
+- Where to go: Staff Dashboard -> "Sales" -> "Create Sales Invoice"
+- What to do: Select a registered customer, add parts they are buying, and process the sale. Verify stock decreases in Inventory.
+- What to insert:
+  - Customer: Alice Johnson
+  - Part: Oil Filter
+  - Quantity: 2
+  - Discount: 0
+
+-------------------------------------------------------------------
+Test Case 8: Customer Search Functionality (FT-08)
+- Role: Staff
+- Where to go: Staff Dashboard -> "Customers" -> "Search Bar"
+- What to do: Type in search queries and press Enter or click "Search".
+- What to insert (try these different inputs):
+  - "BA 2 PA 1234" (Vehicle Number)
+  - "9811111111" (Phone Number)
+  - "Alice Johnson" (Name)
+
+-------------------------------------------------------------------
+Test Case 9: Appointment Booking and Service Review (FT-09)
+- Role: Customer
+- Where to go: Customer Portal -> "Book Appointment" / "Service Reviews"
+- What to do: Pick a date/time for service. Later, go to past services and write a review.
+- What to insert:
+  - Booking Date: Tomorrow's Date
+  - Service Type: Full Servicing
+  - Review: "Great and fast service, very satisfied."
+  - Rating: 5 stars
+
+-------------------------------------------------------------------
+Test Case 10: Loyalty Program System (FT-10)
+- Role: Staff (during billing)
+- Where to go: Staff Dashboard -> "Sales" -> "Create Sales Invoice"
+- What to do: Create a bill with a total amount exceeding 5000 and check if a 10% discount is applied automatically at checkout.
+- What to insert:
+  - Add parts totaling e.g., 6000 (like 4 Engine Oils at 1500 each).
+  - Observe subtotal: 6000, Discount: 600, Final Total: 5400.
+
+-------------------------------------------------------------------
+Test Case 11: Customer History Management (FT-11)
+- Role: Staff
+- Where to go: Staff Dashboard -> "Customers" -> Click on a specific customer's profile (e.g., Alice Johnson).
+- What to do: Navigate to the "History" or "Transactions" tab inside the customer profile to view past sales and vehicles.
+- What to insert: None (just click and view).
+
+-------------------------------------------------------------------
+Test Case 12: Customer Report Generation (FT-12)
+- Role: Staff / Admin
+- Where to go: Dashboard -> "Reports" -> "Customer Reports"
+- What to do: Select filters for "High Spenders" or "Pending Credits" and click "Generate".
+- What to insert:
+  - Filter: "Pending Credits"
+  - Date Range: Last 30 Days
+
+-------------------------------------------------------------------
+Test Case 13: Email Invoice System (FT-13)
+- Role: Staff
+- Where to go: Staff Dashboard -> "Sales" -> "View Invoices"
+- What to do: Open a completed invoice and click the "Send to Email" button.
+- What to insert:
+  - Verify the customer's email address (e.g., alice@example.com) is populated and send.
+
+-------------------------------------------------------------------
+Test Case 14: Customer Self Registration and Profile Management (FT-14)
+- Role: Customer
+- Where to go: Website Home Page -> "Sign Up" or "Register"
+- What to do: Fill out the registration form. Then log in, go to "My Profile", and update the address.
+- What to insert:
+  - Name: Bob Smith
+  - Email: bob@example.com
+  - Password: securepass456
+  - Update Address: New Baneshwor, Kathmandu
+
+-------------------------------------------------------------------
+Test Case 15: Low Stock and Credit Reminder Notification (FT-15)
+- Role: Admin/System
+- Where to go: Admin Dashboard -> "Notifications" or Email Inbox.
+- What to do: For low stock, sell an item until its stock goes below the threshold (e.g., 5). Verify an alert pops up or an email is received. For credit, check the email of a customer who has pending dues.
+- What to insert:
+  - Sell 48 Brake Pads (if stock is 50, threshold is 5) so remaining is 2. Wait for alert.
+
+-------------------------------------------------------------------
+Test Case 16: Purchase and Service History (FT-16)
+- Role: Customer
+- Where to go: Customer Portal -> "My History" or "My Orders"
+- What to do: Log in as a customer and view the list of past purchases and service records.
+- What to insert: None (just browse the history tables).

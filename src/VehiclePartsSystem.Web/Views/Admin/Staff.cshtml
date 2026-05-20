@@ -1,0 +1,122 @@
+@model List<VehiclePartsSystem.Web.Models.StaffViewModel>
+@{ ViewData["Title"] = "Staff Management"; }
+
+<div class="container-fluid my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-people me-2"></i>Staff Management</h2>
+        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+            <i class="bi bi-person-plus me-2"></i>Add Staff
+        </button>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>No staff registered yet. Click <strong>Add Staff</strong> to register one.
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in Model)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">
+                                        <i class="bi bi-person-circle me-2 text-secondary"></i>@s.FullName
+                                    </td>
+                                    <td>@s.Email</td>
+                                    <td>@s.Phone</td>
+                                    <td><span class="badge bg-secondary">@(string.IsNullOrEmpty(s.Position) ? "Staff" : s.Position)</span></td>
+                                    <td>
+                                        <span class="badge @(s.IsActive ? "bg-success" : "bg-danger")">
+                                            @(s.IsActive ? "Active" : "Inactive")
+                                        </span>
+                                    </td>
+                                    <td>@s.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                    <td>
+                                        <form asp-action="ToggleStaff" method="post" class="d-inline">
+                                            <input type="hidden" name="userId" value="@s.Id" />
+                                            <button type="submit"
+                                                class="btn btn-sm @(s.IsActive ? "btn-outline-warning" : "btn-outline-success")"
+                                                onclick="return confirm('@(s.IsActive ? "Deactivate" : "Activate") @s.FullName?')">
+                                                <i class="bi @(s.IsActive ? "bi-pause-circle" : "bi-play-circle") me-1"></i>
+                                                @(s.IsActive ? "Deactivate" : "Activate")
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Add Staff Modal -->
+<div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="addStaffModalLabel">
+                    <i class="bi bi-person-plus me-2"></i>Register New Staff
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="CreateStaff" method="post" id="staffForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
+                        <input name="fullName" class="form-control" placeholder="e.g. Ram Sharma" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                        <input name="email" type="email" class="form-control" placeholder="staff@example.com" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
+                        <input name="password" type="password" class="form-control" placeholder="Minimum 6 characters" required minlength="6" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Phone</label>
+                        <input name="phone" class="form-control" placeholder="98XXXXXXXX" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Position</label>
+                        <select name="position" class="form-select">
+                            <option value="Sales Staff">Sales Staff</option>
+                            <option value="Senior Staff">Senior Staff</option>
+                            <option value="Technician">Technician</option>
+                            <option value="Cashier">Cashier</option>
+                            <option value="Inventory Manager">Inventory Manager</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-person-check me-1"></i>Register Staff
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

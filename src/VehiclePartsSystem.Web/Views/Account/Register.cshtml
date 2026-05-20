@@ -1,0 +1,51 @@
+@model VehiclePartsSystem.Web.Models.RegisterViewModel
+@{ ViewData["Title"] = "Register"; }
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-plus-fill display-3 text-warning"></i>
+                        <h3 class="fw-bold mt-2">Create Account</h3>
+                    </div>
+                    <form asp-action="Register" method="post">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                { <div>@e.ErrorMessage</div> }
+                            </div>
+                        }
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label fw-semibold">Full Name</label><input asp-for="FullName" class="form-control" placeholder="Your full name" required /></div>
+                            <div class="col-md-6"><label class="form-label fw-semibold">Phone</label><input asp-for="Phone" class="form-control" placeholder="Phone number" required /></div>
+                            <div class="col-md-6"><label class="form-label fw-semibold">Email</label><input asp-for="Email" type="email" class="form-control" placeholder="Email address" required /></div>
+                            <div class="col-md-6"><label class="form-label fw-semibold">Password</label><input asp-for="Password" type="password" class="form-control" placeholder="Password" required /></div>
+                            <div class="col-12"><label class="form-label fw-semibold">Address</label><input asp-for="Address" class="form-control" placeholder="Your address" /></div>
+                        </div>
+                        <hr class="my-4" />
+                        <h6 class="fw-bold text-muted">Vehicle Details (Optional)</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Vehicle Number</label><input asp-for="VehicleNumber" class="form-control" placeholder="e.g. BA 1 PA 1234" /></div>
+                            <div class="col-md-6"><label class="form-label">Make</label><input asp-for="Make" class="form-control" placeholder="e.g. Toyota" /></div>
+                            <div class="col-md-4"><label class="form-label">Model</label><input asp-for="VehicleModel" class="form-control" placeholder="e.g. Corolla" /></div>
+                            <div class="col-md-4"><label class="form-label">Year</label><input asp-for="Year" type="number" class="form-control" placeholder="2020" /></div>
+                            <div class="col-md-4"><label class="form-label">Fuel Type</label>
+                                <select asp-for="FuelType" class="form-select">
+                                    <option value="">Select</option>
+                                    <option>Petrol</option><option>Diesel</option><option>Electric</option><option>Hybrid</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold mt-4">
+                            <i class="bi bi-person-check me-2"></i>Create Account
+                        </button>
+                    </form>
+                    <p class="text-center mt-3 mb-0">Already have an account? <a asp-action="Login" class="text-warning fw-bold">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

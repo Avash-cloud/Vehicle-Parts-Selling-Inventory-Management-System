@@ -1,0 +1,88 @@
+@{ ViewData["Title"] = "Admin Dashboard"; }
+
+<div class="container-fluid my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-speedometer2 me-2 text-warning"></i>Admin Dashboard</h2>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card dashboard-card blue p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div><h6 class="mb-1 opacity-75">Total Parts</h6><h2 class="fw-bold mb-0">@ViewBag.TotalParts</h2></div>
+                    <i class="bi bi-box display-4 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card green p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div><h6 class="mb-1 opacity-75">Total Customers</h6><h2 class="fw-bold mb-0">@ViewBag.TotalCustomers</h2></div>
+                    <i class="bi bi-people display-4 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card orange p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div><h6 class="mb-1 opacity-75">Total Sales</h6><h2 class="fw-bold mb-0">@ViewBag.TotalSales</h2></div>
+                    <i class="bi bi-receipt display-4 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card red p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div><h6 class="mb-1 opacity-75">Today's Revenue</h6><h2 class="fw-bold mb-0">Rs. @string.Format("{0:N0}", ViewBag.TodayRevenue)</h2></div>
+                    <i class="bi bi-currency-dollar display-4 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h5 class="fw-bold mb-3">
+                    <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+                    Low Stock Alert (@ViewBag.LowStockCount items)
+                </h5>
+                @{var lowStock = ViewBag.LowStockParts as List<VehiclePartsSystem.Web.Models.PartViewModel> ?? new();}
+                @if (lowStock.Any())
+                {
+                    <table class="table table-sm">
+                        <thead><tr><th>Part</th><th>Stock</th><th>Reorder Level</th></tr></thead>
+                        <tbody>
+                            @foreach (var p in lowStock)
+                            {
+                                <tr class="table-warning">
+                                    <td>@p.Name</td>
+                                    <td><span class="badge bg-danger">@p.StockQuantity</span></td>
+                                    <td>@p.ReorderLevel</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <a asp-action="Parts" class="btn btn-sm btn-outline-warning">View All Low Stock</a>
+                }
+                else
+                {
+                    <p class="text-muted"><i class="bi bi-check-circle text-success me-2"></i>All parts are well stocked.</p>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-lightning text-primary me-2"></i>Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a asp-action="CreatePart" class="btn btn-outline-primary"><i class="bi bi-plus-circle me-2"></i>Add New Part</a>
+                    <a asp-action="CreateVendor" class="btn btn-outline-secondary"><i class="bi bi-truck me-2"></i>Add Vendor</a>
+                    <a asp-action="CreatePurchaseInvoice" class="btn btn-outline-success"><i class="bi bi-receipt me-2"></i>Create Purchase Invoice</a>
+                    <a asp-action="FinancialReport" class="btn btn-outline-warning"><i class="bi bi-bar-chart me-2"></i>View Financial Report</a>
+                    <a asp-action="Appointments" class="btn btn-outline-info"><i class="bi bi-calendar me-2"></i>View Appointments</a>
+                    <form asp-action="SendCreditReminders" method="post">
+                        <button type="submit" class="btn btn-outline-danger w-100"><i class="bi bi-envelope me-2"></i>Send Credit Reminders</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+@model List<VehiclePartsSystem.Web.Models.PartRequestViewModel>
+@{ ViewData["Title"] = "Part Requests"; }
+<div class="container-fluid my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-list-check me-2"></i>Part Requests</h2>
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>Customer</th><th>Part Name</th><th>Description</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@r.CustomerName</td>
+                            <td>@r.PartName</td>
+                            <td>@r.Description</td>
+                            <td><span class="badge @(r.Status == "Fulfilled" ? "bg-success" : r.Status == "Rejected" ? "bg-danger" : "bg-warning text-dark")">@r.Status</span></td>
+                            <td>@r.CreatedAt.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                <form asp-action="UpdatePartRequestStatus" method="post" class="d-flex gap-1">
+                                    <input type="hidden" name="id" value="@r.Id" />
+                                    <select name="status" class="form-select form-select-sm" style="width:120px">
+                                        <option>Pending</option><option>Fulfilled</option><option>Rejected</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

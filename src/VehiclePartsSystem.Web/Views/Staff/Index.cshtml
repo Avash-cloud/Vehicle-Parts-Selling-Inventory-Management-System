@@ -1,0 +1,17 @@
+@{ ViewData["Title"] = "Staff Dashboard"; }
+<div class="container-fluid my-4">
+    <h2 class="fw-bold mb-4"><i class="bi bi-speedometer2 me-2 text-warning"></i>Staff Dashboard</h2>
+    <div class="row g-4 mb-4">
+        <div class="col-md-4"><div class="card dashboard-card blue p-4"><div class="d-flex justify-content-between align-items-center"><div><h6 class="opacity-75">Total Customers</h6><h2 class="fw-bold">@ViewBag.TotalCustomers</h2></div><i class="bi bi-people display-4 opacity-50"></i></div></div></div>
+        <div class="col-md-4"><div class="card dashboard-card green p-4"><div class="d-flex justify-content-between align-items-center"><div><h6 class="opacity-75">Today's Sales</h6><h2 class="fw-bold">@ViewBag.TodaySales</h2></div><i class="bi bi-receipt display-4 opacity-50"></i></div></div></div>
+        <div class="col-md-4"><div class="card dashboard-card orange p-4"><div class="d-flex justify-content-between align-items-center"><div><h6 class="opacity-75">Today's Revenue</h6><h2 class="fw-bold">Rs. @(((decimal)ViewBag.TodayRevenue).ToString("N0"))</h2></div><i class="bi bi-currency-dollar display-4 opacity-50"></i></div></div></div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-6"><div class="card p-4"><h5 class="fw-bold mb-3">Quick Actions</h5><div class="d-grid gap-2">
+            <a asp-action="RegisterCustomer" class="btn btn-outline-primary"><i class="bi bi-person-plus me-2"></i>Register Customer</a>
+            <a asp-action="CreateSalesInvoice" class="btn btn-outline-success"><i class="bi bi-plus-circle me-2"></i>New Sale</a>
+            <a asp-action="Customers" class="btn btn-outline-secondary"><i class="bi bi-search me-2"></i>Search Customers</a>
+            <a asp-action="Reports" class="btn btn-outline-warning"><i class="bi bi-bar-chart me-2"></i>View Reports</a>
+        </div></div></div>
+    </div>
+</div>
